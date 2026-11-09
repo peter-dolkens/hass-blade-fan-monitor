@@ -53,7 +53,12 @@ at 25 kHz, as Noctua specifies.
 
 ## Install
 
-**Marketplace:** Settings → Marketplace → ⋮ → *Custom repositories* → add
+[![Open your Home Assistant instance and open this repository in the Marketplace (HACS).](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=peter-dolkens&repository=hass-blade-fan-monitor&category=integration)
+
+The button opens this repository in the Marketplace (HACS), whether it's built in or
+installed separately. Install **Compute Blade Fan** and restart Home Assistant.
+
+**Marketplace, by hand:** Settings → Marketplace → ⋮ → *Custom repositories* → add
 `https://github.com/peter-dolkens/hass-blade-fan-monitor` as an *Integration*.
 Install **Compute Blade Fan** and restart Home Assistant.
 
