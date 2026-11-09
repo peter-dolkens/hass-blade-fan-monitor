@@ -51,6 +51,8 @@ OPTIONS_SCHEMA = vol.Schema(
     }
 )
 
+OPTION_KEYS = (CONF_PULSES_PER_REV, CONF_STALL_SECONDS, CONF_INTERVAL_SECONDS)
+
 USER_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_TACH_GPIO, default=DEFAULT_TACH_GPIO): _int_box(0, 63),
@@ -77,7 +79,9 @@ class BladeFanConfigFlow(ConfigFlow, domain=DOMAIN):
                 return self.async_create_entry(
                     title="Blade Fan",
                     data={CONF_CHIP_LABEL: label, CONF_TACH_GPIO: gpio},
-                    options={k: user_input[k] for k in OPTIONS_SCHEMA.schema},
+                    # Plain string keys: iterating OPTIONS_SCHEMA.schema yields
+                    # Required markers, which can't be stored (0.3.0-0.4.1 bug).
+                    options={k: user_input[k] for k in OPTION_KEYS},
                 )
         return self.async_show_form(
             step_id="user",
