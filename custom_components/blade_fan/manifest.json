@@ -8,5 +8,5 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/peter-dolkens/hass-blade-fan-monitor/issues",
   "requirements": ["gpiod>=2.2.1"],
-  "version": "0.4.0"
+  "version": "0.4.1"
 }

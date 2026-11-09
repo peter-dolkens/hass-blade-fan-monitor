@@ -8,8 +8,8 @@
           "tach_gpio": "Tach GPIO (BCM number)",
           "gpio_chip_label": "GPIO chip label",
           "pulses_per_rev": "Tach pulses per revolution",
-          "stall_seconds": "Stall alarm after (seconds)",
-          "interval_seconds": "Update interval (seconds)"
+          "stall_seconds": "Stall alarm after",
+          "interval_seconds": "Update interval"
         },
         "data_description": {
           "tach_gpio": "13 on the Compute Blade.",
@@ -33,8 +33,8 @@
       "init": {
         "data": {
           "pulses_per_rev": "Tach pulses per revolution",
-          "stall_seconds": "Stall alarm after (seconds)",
-          "interval_seconds": "Update interval (seconds)"
+          "stall_seconds": "Stall alarm after",
+          "interval_seconds": "Update interval"
         }
       }
     }

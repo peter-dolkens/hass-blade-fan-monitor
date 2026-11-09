@@ -13,6 +13,11 @@ from homeassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from homeassistant.core import callback
+from homeassistant.helpers.selector import (
+    NumberSelector,
+    NumberSelectorConfig,
+    NumberSelectorMode,
+)
 
 from .const import (
     CONF_CHIP_LABEL,
@@ -29,25 +34,26 @@ from .const import (
 )
 from .hardware import probe
 
+def _int_box(minimum: int, maximum: int, unit: str | None = None) -> vol.All:
+    """Integer typed into a box. A bare vol.Range renders as a slider, which is
+    awkward for picking a GPIO number or a number of seconds."""
+    config = NumberSelectorConfig(min=minimum, max=maximum, step=1, mode=NumberSelectorMode.BOX)
+    if unit:
+        config["unit_of_measurement"] = unit
+    return vol.All(NumberSelector(config), vol.Coerce(int))
+
+
 OPTIONS_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_PULSES_PER_REV, default=DEFAULT_PULSES_PER_REV): vol.All(
-            vol.Coerce(int), vol.Range(min=1, max=8)
-        ),
-        vol.Required(CONF_STALL_SECONDS, default=DEFAULT_STALL_SECONDS): vol.All(
-            vol.Coerce(int), vol.Range(min=5, max=600)
-        ),
-        vol.Required(CONF_INTERVAL_SECONDS, default=DEFAULT_INTERVAL_SECONDS): vol.All(
-            vol.Coerce(int), vol.Range(min=2, max=300)
-        ),
+        vol.Required(CONF_PULSES_PER_REV, default=DEFAULT_PULSES_PER_REV): _int_box(1, 8),
+        vol.Required(CONF_STALL_SECONDS, default=DEFAULT_STALL_SECONDS): _int_box(5, 600, "s"),
+        vol.Required(CONF_INTERVAL_SECONDS, default=DEFAULT_INTERVAL_SECONDS): _int_box(2, 300, "s"),
     }
 )
 
 USER_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_TACH_GPIO, default=DEFAULT_TACH_GPIO): vol.All(
-            vol.Coerce(int), vol.Range(min=0, max=63)
-        ),
+        vol.Required(CONF_TACH_GPIO, default=DEFAULT_TACH_GPIO): _int_box(0, 63),
         vol.Required(CONF_CHIP_LABEL, default=DEFAULT_CHIP_LABEL): str,
     }
 ).extend(OPTIONS_SCHEMA.schema)
