@@ -1,0 +1,57 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Compute Blade Fan",
+        "description": "Counts the fan's tach pulses on a GPIO and reads the duty the kernel pwm-fan driver applies. The defaults suit a Compute Blade (CM5) with the fan unit on header J1.",
+        "data": {
+          "tach_gpio": "Tach GPIO (BCM number)",
+          "gpio_chip_label": "GPIO chip label",
+          "pulses_per_rev": "Tach pulses per revolution",
+          "stall_seconds": "Stall alarm after (seconds)",
+          "interval_seconds": "Update interval (seconds)"
+        },
+        "data_description": {
+          "tach_gpio": "13 on the Compute Blade.",
+          "gpio_chip_label": "pinctrl-rp1 on a Raspberry Pi 5 / CM5.",
+          "pulses_per_rev": "2 for Noctua and most PC fans.",
+          "stall_seconds": "How long the fan may report no pulses while it should be spinning."
+        }
+      }
+    },
+    "error": {
+      "chip_not_found": "No GPIO chip with that label. Is Home Assistant running on the Raspberry Pi?",
+      "line_busy": "That GPIO is in use by something else (another integration or an add-on).",
+      "invalid_gpio": "That GPIO doesn't exist on this chip."
+    },
+    "abort": {
+      "already_configured": "This tach GPIO is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "pulses_per_rev": "Tach pulses per revolution",
+          "stall_seconds": "Stall alarm after (seconds)",
+          "interval_seconds": "Update interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "speed": { "name": "Speed" },
+      "duty": { "name": "Duty" }
+    },
+    "binary_sensor": {
+      "stall": { "name": "Stall" }
+    }
+  },
+  "issues": {
+    "pwm_fan_missing": {
+      "title": "Fan isn't under kernel control",
+      "description": "No pwm-fan device was found, so the fan isn't following the CPU temperature, and duty and stall detection are unavailable. Add the pwm-fan overlay to config.txt on the boot partition (see the documentation) and reboot the host."
+    }
+  }
+}
